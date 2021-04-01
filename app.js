@@ -1,47 +1,38 @@
-var MongoClient = require('mongodb').MongoClient,
-    assert = require('assert'),
-    parseString = require('xml2js').parseString,
-    request = require('request'),
-    https = require('https'),
-    post = require('http-post')
-    flights='';
-  const options = {
-      hostname: 'opensky-network.org',
-      port: 443,
-      path: '/api/states/all?lamin=40.94&lomin=-73.69&lamax=41.3&lomax=-73.28',
-      method: 'GET'
+const https = require("https")
+const moment = require("moment")
+const openskyBaseUrl = "https://opensky-network.org/api/states/all"
+const latitudeMin = 40.94
+const longitudeMin = -73.69
+const latitudeMax = 41.3
+const longitudeMax = -73.22
+const openskyUrl = openskyBaseUrl.concat("?lamin=").concat(latitudeMin).concat("&lomin=").concat(longitudeMin).concat("&lamax=").concat(latitudeMax).concat("&lomax=").concat(longitudeMax)
+const aviationstackBaseUrl = "http://api.aviationstack.com/v1/flights"
+const aviationstackAccessKey = "7743bd2360dcdaa0e1f052dbd7db8e38"
+const aviationstackUrl = aviationstackBaseUrl.concat("?access_key=").concat(aviationstackAccessKey)
+
+console.log("Using ", openskyUrl, " and ", aviationstackUrl);
+
+https.get(openskyUrl, res => {
+  let data = ""
+
+  res.on("data", d => {
+    data += d
+  })
+  res.on("end", () => {
+    flightobject=JSON.parse(data)
+    console.log(flightobject);
+    var i = 0
+    var flights=[]
+    for (const state of flightobject.states) {
+      flights.push(
+        {icao24:state[0].trim()},
+        {callsign:state[1].trim()}
+    )
     }
+    console.log("flights are ", flights, "at ", moment().unix());
+  })
+})
 
-    const req = https.request(options, res => {
-      console.log(`statusCode: ${res.statusCode}`)
+function getFlightDetails(icao24) {
 
-      res.on('data', d => {
-            flights+= d;
-            process.stdout.write(flights);
-      })
-      return flights
-    })
-
-    req.on('error', error => {
-      console.error(error)
-    })
-
-    req.end()
-
-    console.log(req);
-
-
-
-
-    //
-    //
-    // for (const state of d) {
-    //   console.log(element);
-    // }
-    //
-    // i = 0
-    // res.on('data', d => {
-    //   for (const state of d) {
-    //     console.log("element ", i, " is ",state);
-    //     i+=
-    //   }
+}

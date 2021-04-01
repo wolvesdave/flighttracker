@@ -1,0 +1,56 @@
+{
+    "pagination": {
+        "limit": 100,
+        "offset": 0,
+        "count": 1,
+        "total": 1
+    },
+    "data": [
+        {
+            "flight_date": "2021-03-31",
+            "flight_status": "active",
+            "departure": {
+                "airport": "John F Kennedy International",
+                "timezone": "America/New_York",
+                "iata": "JFK",
+                "icao": "KJFK",
+                "terminal": null,
+                "gate": null,
+                "delay": 12,
+                "scheduled": "2021-03-31T22:00:00+00:00",
+                "estimated": "2021-03-31T22:00:00+00:00",
+                "actual": null,
+                "estimated_runway": null,
+                "actual_runway": null
+            },
+            "arrival": {
+                "airport": "Heathrow",
+                "timezone": "Europe/London",
+                "iata": "LHR",
+                "icao": "EGLL",
+                "terminal": null,
+                "gate": null,
+                "baggage": null,
+                "delay": null,
+                "scheduled": "2021-04-01T09:37:00+00:00",
+                "estimated": "2021-04-01T09:37:00+00:00",
+                "actual": null,
+                "estimated_runway": null,
+                "actual_runway": null
+            },
+            "airline": {
+                "name": "Virgin Atlantic",
+                "iata": "VS",
+                "icao": "VIR"
+            },
+            "flight": {
+                "number": "688",
+                "iata": "VS688",
+                "icao": "VIR688",
+                "codeshared": null
+            },
+            "aircraft": null,
+            "live": null
+        }
+    ]
+}
