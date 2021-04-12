@@ -12,15 +12,20 @@ const longitudeMax = -73.22
 const openskyUrl = openskyBaseUrl.concat("?lamin=").concat(latitudeMin).concat("&lomin=").concat(longitudeMin).concat("&lamax=").concat(latitudeMax).concat("&lomax=").concat(longitudeMax)
 const aviationstackBaseUrl = "http://api.aviationstack.com/v1/flights"
 const aviationstackAccessKey = process.env.aviationstackAccessKey
-const accountSid = process.env.accountSid
-const authToken = process.env.authToken
-const client = require('twilio')(accountSid, authToken);
+const twilioAccountSid = process.env.twilioAccountSid
+const twilioAuthToken = process.env.twilioAuthToken
+const openWeatherKey = process.env.openWeatherKey
+const openWeatherBaseUrl = "api.openweathermap.org/data/2.5/weather?zip=06907"
+const openWeatherUrl = openWeatherBaseUrl.concat("&appid=").concat(openWeatherKey)
+const acceptableWeatherCodes = [800, 801, 802, 803, 804]
+
+const client = require('twilio')(twilioAccountSid, twilioAuthToken);
 
 console.log("Using ", openskyUrl);
 
 request(openskyUrl, function (err, response, body) {
   if(err){
-    console.log('error:', error);
+    console.log('error:', err);
   } else {
     console.log('body:', body);
     stateObject=JSON.parse(body)
