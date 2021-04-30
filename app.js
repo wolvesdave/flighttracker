@@ -3,6 +3,7 @@ const http = require("http")
 const moment = require("moment")
 const request = require('request')
 const async = require('async')
+const axios = require('axios')
 const dotenv = require("dotenv").config()
 const openskyBaseUrl = "https://opensky-network.org/api/states/all"
 const latitudeMin = 40.94
@@ -18,12 +19,12 @@ const openWeatherKey = process.env.openWeatherKey
 const openWeatherBaseUrl = "api.openweathermap.org/data/2.5/weather?zip=06907"
 const openWeatherUrl = openWeatherBaseUrl.concat("&appid=").concat(openWeatherKey)
 const acceptableWeatherCodes = [800, 801, 802, 803, 804]
-
 const client = require('twilio')(twilioAccountSid, twilioAuthToken);
 
 console.log("Using ", openskyUrl);
 
-request(openskyUrl, function (err, response, body) {
+
+request(openskyUrl, function (err, response, body) { //change this to use axios
   if(err){
     console.log('error:', err);
   } else {
@@ -35,7 +36,7 @@ request(openskyUrl, function (err, response, body) {
       const aviationstackUrl = aviationstackBaseUrl.concat("?access_key=").concat(aviationstackAccessKey).concat("&flight_icao=").concat(callsign)
       console.log("using ", aviationstackUrl);
 
-      request(aviationstackUrl, function (err, response, body) {
+      request(aviationstackUrl, function (err, response, body) { //change this to use axios with await
         if(err){
           console.log('error:', err);
         } else {
@@ -97,4 +98,15 @@ request(openskyUrl, function (err, response, body) {
         }
     });
 }
+});
+
+
+axios.all([
+  axios.get('https://api.github.com/users/mapbox'),
+  axios.get('https://api.github.com/users/phantomjs')
+])
+.then(responseArr => {
+  //this will be executed only when all requests are complete
+  console.log('Date created: ', responseArr[0].data.created_at);
+  console.log('Date created: ', responseArr[1].data.created_at);
 });

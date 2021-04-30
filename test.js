@@ -21,28 +21,28 @@ const openWeatherBaseUrl = "https://api.openweathermap.org/data/2.5/weather?zip=
 const openWeatherUrl = openWeatherBaseUrl.concat("&appid=").concat(openWeatherKey)
 const acceptableWeatherCodes = [800, 801, 802, 803, 804];
 
+console.log("before");
 (async () => {
   try {
-    const response = axios.get(openWeatherUrl)
-    console.log("success!", response.body);
+    const response = await axios.get(openWeatherUrl)
+    console.log("success!", response.data);
+    weatherCodes = []
+    response.data.weather.forEach(element => weatherCodes.push(element.id));
+    console.log("weather codes are ", weatherCodes);
+    const intersection = weatherCodes.filter(element => acceptableWeatherCodes.includes(element));
+    if (intersection.length !== 0) {
+      console.log("matching weather codes are ", intersection);
+    } else {
+      console.log("nothing matched");
+    }
   } catch (error) {
     console.log(error.response.body);
   }
-  // await request(openWeatherUrl, function (err, response, body) {
-  //   if(err){
-  //     console.log('error:', err);
-  //   } else {
-  //     weatherObject=JSON.parse(body)
-  //     console.log('weather is ', weatherObject);
-  //     weatherCodes = []
-  //     weatherObject.weather.forEach(element => weatherCodes.push(element.id));
-  //     console.log("weather codes are ", weatherCodes);
-  //     const intersection = weatherCodes.filter(element => acceptableWeatherCodes.includes(element));
-  //     if (intersection.length !== 0) {
-  //       return weatherCodes
-  //     } else {
-  //       return []
-  //     }
-  // }
-  // });
-});
+})();
+console.log("after");
+
+// {
+//     weatherObject=JSON.parse(body)
+//     console.log('weather is ', weatherObject);
+//
+// }
